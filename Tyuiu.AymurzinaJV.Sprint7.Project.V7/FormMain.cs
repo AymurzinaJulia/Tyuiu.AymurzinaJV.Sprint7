@@ -22,9 +22,6 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
         }
 
 
-        // ========================
-        // Обновление DataGridView с русскими названиями колонок
-        // ========================
         private void RefreshGrid(IEnumerable<Apartment_AJV>? source = null)
         {
             dataGridView_AJV.DataSource = null;
@@ -33,7 +30,6 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
 
             if (dataGridView_AJV.Columns.Count == 0) return;
 
-            // Русские названия колонок
             dataGridView_AJV.Columns[nameof(Apartment_AJV.EntranceNumber)].HeaderText = "№ подъезда";
             dataGridView_AJV.Columns[nameof(Apartment_AJV.ApartmentNumber)].HeaderText = "№ квартиры";
             dataGridView_AJV.Columns[nameof(Apartment_AJV.OwnerSurname)].HeaderText = "Фамилия";
@@ -47,16 +43,12 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
 
 
 
-            // Выравнивание текста по центру
             foreach (DataGridViewColumn col in dataGridView_AJV.Columns)
                 col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             UpdateChart();
         }
 
-        // ========================
-        // Добавление квартиры
-        // ========================
         private void buttonAdd_AJV_Click(object sender, EventArgs e)
         {
             try
@@ -72,7 +64,7 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
                     RoomsCount = int.Parse(textBoxRoomsCount_AJV.Text),
                     FamilyCount = int.Parse(textBoxFamilyCount_AJV.Text),
                     ChildrenCount = int.Parse(textBoxChildrenCount_AJV.Text),
-                    HasDebt = comboBoxDebt_AJV.SelectedItem?.ToString() ?? "Нет" // сразу текст Да/Нет
+                    HasDebt = comboBoxDebt_AJV.SelectedItem?.ToString() ?? "Нет" 
                 };
 
                 apartments.Add(apartment);
@@ -84,9 +76,6 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
             }
         }
 
-        // ========================
-        // Удаление квартиры
-        // ========================
         private void buttonDelete_AJV_Click(object sender, EventArgs e)
         {
             if (int.TryParse(textBoxDeleteApartmentNumber_AJV.Text, out int number))
@@ -100,9 +89,6 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
             }
         }
 
-        // ========================
-        // Поиск по фамилии
-        // ========================
         private void buttonSearch_AJV_Click(object sender, EventArgs e)
         {
             string surname = textBoxSearchSurname_AJV.Text.ToLower();
@@ -112,9 +98,6 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
             RefreshGrid(result);
         }
 
-        // ========================
-        // Фильтр по задолженности
-        // ========================
         private void comboBoxDebtFilter_AJV_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxFilter_AJV.SelectedIndex == -1) return;
@@ -124,9 +107,7 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
             RefreshGrid(filtered);
         }
 
-        // ========================
-        // Сортировка
-        // ========================
+
         private void buttonSort_AJV_Click(object sender, EventArgs e)
         {
             if (comboBoxSortField_AJV.SelectedIndex == -1 || comboBoxSortDirection_AJV.SelectedIndex == -1)
@@ -159,17 +140,12 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
             RefreshGrid(sorted);
         }
 
-        // ========================
-        // Показать все квартиры
-        // ========================
+   
         private void buttonShowAll_AJV_Click(object sender, EventArgs e)
         {
             RefreshGrid();
         }
 
-        // ========================
-        // Сохранение в файл
-        // ========================
         private void buttonSave_AJV_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
@@ -186,24 +162,19 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
             }
         }
 
-        // ========================
-        // Загрузка данных
-        // ========================
         private void buttonLoad_AJV_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "CSV file (*.csv)|*.csv"; // Только CSV
+            ofd.Filter = "CSV file (*.csv)|*.csv"; 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                apartments.Clear(); // Очистить старый список
-                var lines = System.IO.File.ReadAllLines(ofd.FileName, System.Text.Encoding.UTF8);
-
-                apartments.Clear(); // очищаем старый список
+                apartments.Clear();
+                var lines = System.IO.File.ReadAllLines(ofd.FileName, System.Text.Encoding.UTF8); 
 
                 foreach (var line in lines)
                 {
                     var parts = line.Split(';', StringSplitOptions.RemoveEmptyEntries);
-                    if (parts.Length == 10) // теперь правильно
+                    if (parts.Length == 10) 
                     {
                         apartments.Add(new Apartment_AJV
                         {
@@ -216,7 +187,7 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
                             RoomsCount = int.Parse(parts[6]),
                             FamilyCount = int.Parse(parts[7]),
                             ChildrenCount = int.Parse(parts[8]),
-                            HasDebt = parts[9].Trim() // "Да"/"Нет"
+                            HasDebt = parts[9].Trim() 
                         });
                     }
                 }
@@ -227,9 +198,6 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
         }
 
 
-        // ========================
-        // О программе
-        // ========================
         private void buttonAbout_AJV_Click(object sender, EventArgs e)
         {
             FormAbout formAbout = new FormAbout();
@@ -360,9 +328,6 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
         }
     }
 
-    // =========================
-    // Модель данных
-    // =========================
     public class Apartment_AJV
     {
         public int EntranceNumber { get; set; }
@@ -374,6 +339,6 @@ namespace Tyuiu.AymurzinaJV.Sprint7.Project.V7
         public int RoomsCount { get; set; }
         public int FamilyCount { get; set; }
         public int ChildrenCount { get; set; }
-        public string HasDebt { get; set; } = "Нет"; // текстовое поле "Да"/"Нет"
+        public string HasDebt { get; set; } = "Нет";
     }
 }

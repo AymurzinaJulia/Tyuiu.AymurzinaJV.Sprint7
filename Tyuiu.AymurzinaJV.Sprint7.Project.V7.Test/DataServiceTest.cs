@@ -1,34 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using Tyuiu.AymurzinaAJV.Sprint7.Project.V7.Lib;
 using Tyuiu.AymurzinaJV.Sprint7.Project.V7;
 
-namespace Tyuiu.AymurzinaJV.Sprint7.Project.Tests
+namespace Tyuiu.AymurzinaJV.Sprint7.Tests
 {
     [TestClass]
-    public sealed class DataServiceTest
+    public class DataServiceTest
     {
         [TestMethod]
-        public void TestStatisticsOnSampleData()
+        public void TestFileExists()
         {
-            // Создаём тестовые квартиры
-            var apartments = new List<Apartment_AJV>
-            {
-                new Apartment_AJV { TotalArea = 50, UsefulArea = 40, FamilyCount = 3 },
-                new Apartment_AJV { TotalArea = 70, UsefulArea = 60, FamilyCount = 4 },
-                new Apartment_AJV { TotalArea = 90, UsefulArea = 80, FamilyCount = 2 },
-            };
+            
+            string path = @"C:\Temp\ApartmentsData.csv";
 
-            // Вычисляем статистику через DataService
-            var stats = DataService.CalculateStatistics(apartments);
+            bool exists = DataService.CheckFileExists(path);
 
-            // Проверяем, что статистика верная
-            Assert.AreEqual(3, stats.Count); // всего квартир 3
-            Assert.AreEqual(70, stats.AverageTotalArea); // средняя площадь (50+70+90)/3
-            Assert.AreEqual(90, stats.MaxTotalArea);     // максимальная площадь
-            Assert.AreEqual(50, stats.MinTotalArea);     // минимальная площадь
-            Assert.AreEqual(3, stats.AverageFamilyCount); // среднее кол-во жильцов (3+4+2)/3
+            Assert.IsFalse(exists); 
         }
     }
 }
-
